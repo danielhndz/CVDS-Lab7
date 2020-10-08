@@ -10,7 +10,11 @@ import edu.eci.cvds.samples.services.ServiciosAlquiler;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
 
 public class ServiciosAlquilerItemsStub implements ServiciosAlquiler {
 
@@ -267,9 +271,9 @@ public class ServiciosAlquilerItemsStub implements ServiciosAlquiler {
         items.put(5, item5);
         items.put(6, item6);
 
-        ItemRentado ir1 = new ItemRentado(1, item1, java.sql.Date.valueOf("2017-01-01"), java.sql.Date.valueOf("2017-03-12"));
-        ItemRentado ir2 = new ItemRentado(2, item2, java.sql.Date.valueOf("2017-01-04"), java.sql.Date.valueOf("2017-04-7"));
-        ItemRentado ir3 = new ItemRentado(3, item3, java.sql.Date.valueOf("2017-01-07"), java.sql.Date.valueOf("2017-07-12"));
+        ItemRentado ir1 = new ItemRentado(1, item1, Date.valueOf("2017-01-01"), Date.valueOf("2017-03-12"));
+        ItemRentado ir2 = new ItemRentado(2, item2, Date.valueOf("2017-01-04"), Date.valueOf("2017-04-7"));
+        ItemRentado ir3 = new ItemRentado(3, item3, Date.valueOf("2017-01-07"), Date.valueOf("2017-07-12"));
         ArrayList<ItemRentado> list1 = new ArrayList<>();
         list1.add(ir1);
         ArrayList<ItemRentado> list2 = new ArrayList<>();

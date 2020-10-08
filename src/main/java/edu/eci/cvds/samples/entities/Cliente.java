@@ -7,8 +7,8 @@ package edu.eci.cvds.samples.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
+@SuppressWarnings("unused")
 public class Cliente implements Serializable {
     
     private String nombre;
@@ -86,8 +86,8 @@ public class Cliente implements Serializable {
         return vetado;
     }
 
-    public void setVetado(boolean betado) {
-        this.vetado = betado;
+    public void setVetado(boolean vetado) {
+        this.vetado = vetado;
     }
 
     public ArrayList<ItemRentado> getRentados() {

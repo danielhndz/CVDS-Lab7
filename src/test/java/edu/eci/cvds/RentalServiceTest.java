@@ -104,7 +104,7 @@ public class RentalServiceTest {
      * consultarItemsCliente(long documento)
      */
     @Test
-    public void MainTest_consultarCliente() {
+    public void MainTestConsultarCliente() {
         try {
             long documento = 1026585664L;
 
@@ -308,27 +308,27 @@ public class RentalServiceTest {
         Item item1 = new Item(tipoItem1, 1,
                 "Los 4 Fantásticos",
                 "Los 4 Fantásticos  es una película de superhéroes  basada en la serie de cómic homónima de Marvel.",
-                java.sql.Date.valueOf("2005-06-08"), 2000, "DVD", "Ciencia Fiction");
+                Date.valueOf("2005-06-08"), 2000, "DVD", "Ciencia Fiction");
         Item item2 = new Item(tipoItem2, 2,
                 "Halo 3",
                 "Halo 3 es un videojuego de disparos en primera persona desarrollado por Bungee Studios.",
-                java.sql.Date.valueOf("2007-09-08"), 3000, "DVD", "Shooter");
+                Date.valueOf("2007-09-08"), 3000, "DVD", "Shooter");
         Item item3 = new Item(tipoItem3, 3,
                 "Thriller",
                 "Thriller es una canción interpretada por el cantante estadounidense Michael Jackson, compuesta por Rod Templeton y producida por Quincy Jones.",
-                java.sql.Date.valueOf("1984-01-11"), 2000, "DVD", "Pop");
+                Date.valueOf("1984-01-11"), 2000, "DVD", "Pop");
         Item item4 = new Item(tipoItem1, 4,
                 "Los 4 Fantásticos",
                 "Los 4 Fantásticos  es una película de superhéroes  basada en la serie de cómic homónima de Marvel.",
-                java.sql.Date.valueOf("2005-06-08"), 2000, "DVD", "Ciencia Fiction");
+                Date.valueOf("2005-06-08"), 2000, "DVD", "Ciencia Fiction");
         Item item5 = new Item(tipoItem2, 5,
                 "Halo 3",
                 "Halo 3 es un videojuego de disparos en primera persona desarrollado por Bungee Studios.",
-                java.sql.Date.valueOf("2007-09-08"), 3000, "DVD", "Shooter");
+                Date.valueOf("2007-09-08"), 3000, "DVD", "Shooter");
         Item item6 = new Item(tipoItem3, 6,
                 "Thriller",
                 "Thriller es una canción interpretada por el cantante estadounidense Michael Jackson, compuesta por Rod Templeton y producida por Quincy Jones.",
-                java.sql.Date.valueOf("1984-01-11"), 2000, "DVD", "Pop");
+                Date.valueOf("1984-01-11"), 2000, "DVD", "Pop");
 
         serviciosAlquiler.registrarItem(item1);
         serviciosAlquiler.registrarItem(item2);
@@ -337,9 +337,9 @@ public class RentalServiceTest {
         serviciosAlquiler.registrarItem(item5);
         serviciosAlquiler.registrarItem(item6);
 
-        ItemRentado ir1 = new ItemRentado(1, item1, java.sql.Date.valueOf("2017-01-01"), java.sql.Date.valueOf("2017-03-12"));
-        ItemRentado ir2 = new ItemRentado(2, item2, java.sql.Date.valueOf("2017-01-04"), java.sql.Date.valueOf("2017-04-7"));
-        ItemRentado ir3 = new ItemRentado(3, item3, java.sql.Date.valueOf("2017-01-07"), java.sql.Date.valueOf("2017-07-12"));
+        ItemRentado ir1 = new ItemRentado(1, item1, Date.valueOf("2017-01-01"), Date.valueOf("2017-03-12"));
+        ItemRentado ir2 = new ItemRentado(2, item2, Date.valueOf("2017-01-04"), Date.valueOf("2017-04-7"));
+        ItemRentado ir3 = new ItemRentado(3, item3, Date.valueOf("2017-01-07"), Date.valueOf("2017-07-12"));
         ArrayList<ItemRentado> list1 = new ArrayList<>();
         list1.add(ir1);
         ArrayList<ItemRentado> list2 = new ArrayList<>();
