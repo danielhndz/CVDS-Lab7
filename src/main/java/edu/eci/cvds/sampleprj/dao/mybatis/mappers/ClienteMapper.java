@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import edu.eci.cvds.samples.entities.ItemRentado;
-import edu.eci.cvds.samples.services.RentalServicesException;
 import org.apache.ibatis.annotations.Param;
 
 import edu.eci.cvds.samples.entities.Cliente;

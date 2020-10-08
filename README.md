@@ -8,26 +8,13 @@
 # :hammer_and_wrench: Laboratorio 8 - MyBatis-Guice-PrimeFaces
 ### Integración de Capas con Google Guice
 
+[![Deployed to Heroku](https://www.herokucdn.com/deploy/button.png)](https://cvds-lab7-lab8.herokuapp.com/)
+
+[![CircleCI](https://circleci.com/gh/danielhndz/CVDS-Lab7-Lab8.svg?style=svg)](https://circleci.com/gh/danielhndz/CVDS-Lab7-Lab8)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9ba2f164f0674c39b74cfe08d842b18a)](https://www.codacy.com/gh/danielhndz/CVDS-Lab7-Lab8/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=danielhndz/CVDS-Lab7-Lab8&amp;utm_campaign=Badge_Grade)
+
 ![](img/cmodel.png)
 
-## I. Inicio en clase
-
-1. Actualice el proyecto del taller realizados en el ejercicio anterior. Agregue las clases y excepciones no descritas de ser necesario.
-2. Cree la interface `ItemDAO` y utilícela como referencia para realizar los *Objetos de Acceso a los Datos* (DAO) para las demás entidades:
-	```java
-	package edu.eci.cvds.sampleprj.dao;
-
-	import edu.eci.cvds.samples.entities.Item;
-	
-	public interface ItemDAO {
-	
-		public void save(Item it) throws PersistenceException;
-	
-		public Item load(int id) throws PersistenceException;
-	
-	}
-	```
-3. 
 
 <br/>
 
