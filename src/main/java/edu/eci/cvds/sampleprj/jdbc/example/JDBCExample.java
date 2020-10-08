@@ -122,8 +122,8 @@ public class JDBCExample {
                 // Llenar la lista y retornarla
                 np.add(name);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
 
         return np;
@@ -158,8 +158,8 @@ public class JDBCExample {
                 return (int) totalValue;
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
 
         return 0;

@@ -17,14 +17,9 @@
 package edu.eci.cvds.samples.services.client;
 
 
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper;
+import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper;
 import edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper;
 import edu.eci.cvds.samples.entities.Cliente;
 import edu.eci.cvds.samples.entities.Item;
@@ -35,10 +30,16 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  *
  * @author danielhndz
  */
+@SuppressWarnings("all")
 public class MyBatisExample {
 
     /**
@@ -70,25 +71,26 @@ public class MyBatisExample {
 
         ClienteMapper clienteMapper = sqlSs.getMapper(ClienteMapper.class);
         ItemMapper itemMapper = sqlSs.getMapper(ItemMapper.class);
+        ItemRentadoMapper itemRentadoMapper = sqlSs.getMapper(ItemRentadoMapper.class);
         TipoItemMapper tipoItemMapper = sqlSs.getMapper(TipoItemMapper.class);
 
-        /**
-        System.out.println("\n\n\n---------- ClienteDAO ----------");
+
+        /*System.out.println("\n\n\n---------- ClienteDAO ----------");
         clientDAO(clienteMapper, 36);
         System.out.println("\n----------------------------------------");
-        */
 
-        /**
+
+
         System.out.println("\n\n\n---------- ItemDAO ----------");
         itemDAO(itemMapper, 17, 15L);
         System.out.println("\n----------------------------------------");
-        */
 
-        /**
+
+
         System.out.println("\n\n\n---------- TipoItemDAO ----------");
         tipoItemDAO(tipoItemMapper);
-        System.out.println("\n----------------------------------------");
-        */
+        System.out.println("\n----------------------------------------");*/
+
 
         sqlSs.commit();
         sqlSs.close();

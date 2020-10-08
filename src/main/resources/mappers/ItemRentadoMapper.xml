@@ -5,21 +5,60 @@
 
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper">
     <select id="consultarItemRentado" resultMap="ItemRentadoResultMap" parameterType="int">
-        SELECT * FROM VI_ITEMRENTADO WHERE ITEMS_id = #{itemId} GROUP BY ITEMS_id;
+        SELECT
+            ir.id,
+            ir.fechainiciorenta,
+            ir.fechafinrenta,
+            i.id AS ITEMS_id,
+            i.nombre AS ITEMS_nombre,
+            i.descripcion AS ITEMS_descripcion,
+            i.fechalanzamiento AS ITEMS_fechalanzamiento,
+            i.tarifaxdia AS ITEMS_tarifaxdia,
+            i.formatorenta AS ITEMS_formatorenta,
+            i.genero AS ITEMS_genero,
+            ti.id AS ITEMS_TIPOITEM_id,
+            ti.descripcion AS ITEMS_TIPOITEM_descripcion
+        FROM
+            VI_ITEMRENTADO AS ir
+        LEFT JOIN
+            VI_ITEMS AS i ON ir.ITEMS_id = i.id
+        LEFT JOIN
+            VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
+        WHERE
+            ir.id = #{itemRentadoId};
     </select>
 
     <select id="consultarItemsRentados" resultMap="ItemRentadoResultMap">
-        SELECT * FROM VI_ITEMRENTADO;
+        SELECT
+            ir.id,
+            ir.fechainiciorenta,
+            ir.fechafinrenta,
+            i.id AS ITEMS_id,
+            i.nombre AS ITEMS_nombre,
+            i.descripcion AS ITEMS_descripcion,
+            i.fechalanzamiento AS ITEMS_fechalanzamiento,
+            i.tarifaxdia AS ITEMS_tarifaxdia,
+            i.formatorenta AS ITEMS_formatorenta,
+            i.genero AS ITEMS_genero,
+            ti.id AS ITEMS_TIPOITEM_id,
+            ti.descripcion AS ITEMS_TIPOITEM_descripcion
+        FROM
+            VI_ITEMRENTADO AS ir
+        LEFT JOIN
+            VI_ITEMS AS i ON ir.ITEMS_id = i.id
+        LEFT JOIN
+            VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
     </select>
 
     <delete id="limpiarItemsRentados">
-        DELETE FROM VI_ITEMRENTADO;
+        DELETE FROM
+            VI_ITEMRENTADO;
     </delete>
 
     <resultMap id="ItemRentadoResultMap" type="ItemRentado">
         <id column="id" property="id"/>
         <result column="fechainiciorenta" property="fechaInicioRenta"/>
         <result column="fechafinrenta" property="fechaFinRenta"/>
-        <association property="item" javaType="Item" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResultMap"/>
+        <association property="item" javaType="Item" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResultMap" columnPrefix="ITEMS_"/>
     </resultMap>
 </mapper>

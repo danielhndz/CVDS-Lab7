@@ -3,10 +3,6 @@
         "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-    <listener>
-        <listener-class>edu.eci.cvds.guice.GuiceContextListener</listener-class>
-    </listener>
-
     <display-name>Web App JSF/PrimeFaces</display-name>
     <!--
         FacesServlet is main servlet responsible to handle all request.
@@ -30,4 +26,8 @@
     <welcome-file-list>
         <welcome-file>registro-cliente.xhtml</welcome-file>
     </welcome-file-list>
+
+    <listener>
+        <listener-class>edu.eci.cvds.guice.GuiceContextListener</listener-class>
+    </listener>
 </web-app>

@@ -6,95 +6,123 @@
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper">
     <select id="consultarClientes" resultMap="ClienteResultMap">
         SELECT
-        c.nombre,
-        c.documento,
-        c.telefono,
-        c.direccion,
-        c.email,
-        c.vetado,
-        ir.id,
-        ir.fechainiciorenta,
-        ir.fechafinrenta,
-        i.id,
-        i.nombre,
-        i.descripcion,
-        i.fechalanzamiento,
-        i.tarifaxdia,
-        i.formatorenta,
-        i.genero,
-        ti.id,
-        ti.descripcion
-        FROM VI_CLIENTES AS c
-        LEFT JOIN VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento
-        LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id
-        LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
+            c.documento,
+            c.nombre,
+            c.telefono,
+            c.direccion,
+            c.email,
+            c.vetado,
+            ir.id AS ITEMRENTADO_id,
+            ir.fechainiciorenta AS ITEMRENTADO_fechainiciorenta,
+            ir.fechafinrenta AS ITEMRENTADO_fechafinrenta,
+            i.id AS ITEMRENTADO_ITEMS_id,
+            i.nombre AS ITEMRENTADO_ITEMS_nombre,
+            i.descripcion AS ITEMRENTADO_ITEMS_descripcion,
+            i.fechalanzamiento AS ITEMRENTADO_ITEMS_fechalanzamiento,
+            i.tarifaxdia AS ITEMRENTADO_ITEMS_tarifaxdia,
+            i.formatorenta AS ITEMRENTADO_ITEMS_formatorenta,
+            i.genero AS ITEMRENTADO_ITEMS_genero,
+            ti.id AS ITEMRENTADO_ITEMS_TIPOITEM_id,
+            ti.descripcion AS ITEMRENTADO_ITEMS_TIPOITEM_descripcion
+        FROM
+            VI_CLIENTES AS c
+        LEFT JOIN
+            VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento
+        LEFT JOIN
+            VI_ITEMS AS i ON ir.ITEMS_id = i.id
+        LEFT JOIN
+            VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
     </select>
 
     <select id="consultarCliente" resultMap="ClienteResultMap" parameterType="long">
         SELECT
-        c.nombre,
-        c.documento,
-        c.telefono,
-        c.direccion,
-        c.email,
-        c.vetado,
-        ir.id,
-        ir.fechainiciorenta,
-        ir.fechafinrenta,
-        i.id,
-        i.nombre,
-        i.descripcion,
-        i.fechalanzamiento,
-        i.tarifaxdia,
-        i.formatorenta,
-        i.genero,
-        ti.id,
-        ti.descripcion
-        FROM VI_CLIENTES AS c
-        LEFT JOIN VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento
-        LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id
-        LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
-        WHERE c.documento = #{docu};
+            c.documento,
+            c.nombre,
+            c.telefono,
+            c.direccion,
+            c.email,
+            c.vetado,
+            ir.id AS ITEMRENTADO_id,
+            ir.fechainiciorenta AS ITEMRENTADO_fechainiciorenta,
+            ir.fechafinrenta AS ITEMRENTADO_fechafinrenta,
+            i.id AS ITEMRENTADO_ITEMS_id,
+            i.nombre AS ITEMRENTADO_ITEMS_nombre,
+            i.descripcion AS ITEMRENTADO_ITEMS_descripcion,
+            i.fechalanzamiento AS ITEMRENTADO_ITEMS_fechalanzamiento,
+            i.tarifaxdia AS ITEMRENTADO_ITEMS_tarifaxdia,
+            i.formatorenta AS ITEMRENTADO_ITEMS_formatorenta,
+            i.genero AS ITEMRENTADO_ITEMS_genero,
+            ti.id AS ITEMRENTADO_ITEMS_TIPOITEM_id,
+            ti.descripcion AS ITEMRENTADO_ITEMS_TIPOITEM_descripcion
+        FROM
+            VI_CLIENTES AS c
+        LEFT JOIN
+            VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento
+        LEFT JOIN
+            VI_ITEMS AS i ON ir.ITEMS_id = i.id
+        LEFT JOIN
+            VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
+        WHERE
+            c.documento = #{docu};
     </select>
     
     <insert id="agregarItemRentadoACliente">
-        INSERT INTO VI_ITEMRENTADO (CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
-        VALUES (#{idCli}, #{idItm}, #{fechaInicio}, #{fechaFin});
+        INSERT INTO
+            VI_ITEMRENTADO (CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+        VALUES
+            (#{idCli}, #{idItm}, #{fechaInicio}, #{fechaFin});
     </insert>
 
     <insert id="agregarItemRentadoAClienteConId">
-        INSERT INTO VI_ITEMRENTADO (id, CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
-        VALUES (#{id}, #{idCli}, #{idItm}, #{fechaInicio}, #{fechaFin});
+        INSERT INTO
+            VI_ITEMRENTADO (id, CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+        VALUES
+            (#{id}, #{idCli}, #{idItm}, #{fechaInicio}, #{fechaFin});
     </insert>
 
     <select id="consultarItemsCliente" parameterType="long" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper.ItemRentadoResultMap">
         SELECT
-            vc.nombre,
-            vc.documento,
-            vc.vetado,
-            vi.id,
-            vi.ITEMS_id,
-            vi.fechainiciorenta,
-            vi.fechafinrenta
-            FROM
-                VI_CLIENTES AS vc
-            LEFT JOIN
-                VI_ITEMRENTADO AS vi ON vc.documento = vi.CLIENTES_documento
-            WHERE
-                vc.documento = #{docu};
+            ir.id,
+            ir.fechainiciorenta,
+            ir.fechafinrenta,
+            i.id AS ITEMS_id,
+            i.nombre AS ITEMS_nombre,
+            i.descripcion AS ITEMS_descripcion,
+            i.fechalanzamiento AS ITEMS_fechalanzamiento,
+            i.tarifaxdia AS ITEMS_tarifaxdia,
+            i.formatorenta AS ITEMS_formatorenta,
+            i.genero AS ITEMS_genero,
+            ti.id AS ITEMS_TIPOITEM_id,
+            ti.descripcion AS ITEMS_TIPOITEM_descripcion
+        FROM
+            VI_ITEMRENTADO AS ir
+        LEFT JOIN
+            VI_ITEMS AS i ON ir.ITEMS_id = i.id
+        LEFT JOIN
+            VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
+        WHERE
+            ir.CLIENTES_documento = #{docu};
     </select>
 
     <insert id="registrarCliente" parameterType="Cliente">
-        INSERT INTO VI_CLIENTES (documento, nombre, telefono, direccion, email, vetado)
-        VALUES (#{cliente.documento}, #{cliente.nombre}, #{cliente.telefono}, #{cliente.direccion}, #{cliente.email}, #{cliente.vetado});
+        INSERT INTO
+            VI_CLIENTES (documento, nombre, telefono, direccion, email, vetado)
+        VALUES
+            (#{cliente.documento}, #{cliente.nombre}, #{cliente.telefono}, #{cliente.direccion}, #{cliente.email}, #{cliente.vetado});
     </insert>
 
     <update id="vetarCliente">
-        UPDATE VI_CLIENTES SET vetado = #{estado} WHERE documento = #{docu};
+        UPDATE
+            VI_CLIENTES
+        SET
+            vetado = #{estado}
+        WHERE
+            documento = #{docu};
     </update>
 
     <delete id="limpiarClientes">
-        DELETE FROM VI_CLIENTES;
+        DELETE FROM
+            VI_CLIENTES;
     </delete>
 
     <resultMap id="ClienteResultMap" type="Cliente">
@@ -104,6 +132,6 @@
         <result column="direccion" property="direccion"/>
         <result column="email" property="email"/>
         <result column="vetado" property="vetado"/>
-        <collection property="rentados" ofType="ItemRentado" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper.ItemRentadoResultMap"/>
+        <collection property="rentados" ofType="ItemRentado" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper.ItemRentadoResultMap" columnPrefix="ITEMRENTADO_"/>
     </resultMap>
 </mapper>

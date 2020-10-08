@@ -1,0 +1,33 @@
+version: 2.1
+
+orbs:
+  maven: circleci/maven@0.0.12
+
+jobs:
+  deploy:
+    docker:
+      - image: circleci/openjdk:8-jdk-node
+    steps:
+      - run:
+          name: Deploy Master to Heroku
+          command: |
+            if [ -e /home/circleci/project/.git ]
+            then
+              cd /home/circleci/project
+              git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+            else
+              mkdir -p /home/circleci/project
+              cd /home/circleci/project
+              git clone $GITHUB_REPOSITORY_URL .
+              git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+            fi
+workflows:
+  build_test_deploy:
+    jobs:
+      - maven/test # checkout, build, test, and upload test results
+      - deploy:
+          requires:
+            - maven/test # only run deploy-via-git job if the maven/test job has completed
+          filters:
+            branches:
+              only: master # only run deploy-via-git job on master branch

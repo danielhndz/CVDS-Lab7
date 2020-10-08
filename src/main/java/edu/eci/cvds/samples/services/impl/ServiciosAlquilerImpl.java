@@ -20,8 +20,6 @@ import java.util.List;
 
 public class ServiciosAlquilerImpl implements ServiciosAlquiler {
 
-    private final static long MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
-
     @Inject
     ClienteDAO clienteDAO;
 
@@ -89,10 +87,10 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
     }
 
     @Override
-    public long consultarMultaAlquiler(int idItem, Date returnDate) throws RentalServicesException {
+    public long consultarMultaAlquiler(int idItemRentado, Date returnDate) throws RentalServicesException {
         try {
-            long multaPorDia = valorMultaRetrasoPorDia(idItem);
-            ItemRentado itemRentado = itemRentadoDAO.consultarItemRentado(idItem);
+            ItemRentado itemRentado = itemRentadoDAO.consultarItemRentado(idItemRentado);
+            long multaPorDia = valorMultaRetrasoPorDia(itemRentado.getItem().getId());
 
             LocalDate fechaMinEntrega = itemRentado.getFechaFinRenta().toLocalDate();
             LocalDate fechaEntrega = returnDate.toLocalDate();
@@ -209,7 +207,7 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
         try {
             tipoItemDAO.add(tipoItem);
         } catch (PersistenceException e) {
-            throw new RentalServicesException("Error al registrar el tipo de ítem " + tipoItem.getID() + ".");
+            throw new RentalServicesException("Error al registrar el tipo de ítem " + tipoItem.getId() + ".");
         }
     }
 
@@ -259,9 +257,9 @@ public class ServiciosAlquilerImpl implements ServiciosAlquiler {
     }
 
     @Override
-    public ItemRentado consultarItemRentado(int idItem) throws RentalServicesException {
+    public ItemRentado consultarItemRentado(int itemRentadoId) throws RentalServicesException {
         try {
-            return itemRentadoDAO.consultarItemRentado(idItem);
+            return itemRentadoDAO.consultarItemRentado(itemRentadoId);
         } catch (PersistenceException e) {
             throw new RentalServicesException("Error al consultar el ítem rentado.", e);
         }

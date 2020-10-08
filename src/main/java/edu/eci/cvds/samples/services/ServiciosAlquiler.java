@@ -97,5 +97,5 @@ public interface ServiciosAlquiler {
 
     void limpiarTiposItem() throws RentalServicesException;
 
-    ItemRentado consultarItemRentado(int idItem) throws RentalServicesException;
+    ItemRentado consultarItemRentado(int itemRentadoId) throws RentalServicesException;
 }

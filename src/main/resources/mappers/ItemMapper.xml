@@ -14,22 +14,39 @@
     </select>
 
     <select id="consultarItems" resultMap="ItemResultMap">
-        SELECT * FROM VI_ITEMS;
+        SELECT
+            i.id,
+            i.nombre,
+            i.descripcion,
+            i.fechalanzamiento,
+            i.tarifaxdia,
+            i.formatorenta,
+            i.genero,
+            ti.id AS TIPOITEM_id,
+            ti.descripcion AS TIPOITEM_descripcion
+        FROM
+            VI_ITEMS AS i
+        LEFT JOIN
+            VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
     </select>
 
     <select id="consultarItem" resultMap="ItemResultMap" parameterType="int">
         SELECT
-            items.*,
-            VI_TIPOITEM.id AS tipoitem_id,
-            VI_TIPOITEM.descripcion AS tipoitem_descripcion
+            i.id,
+            i.nombre,
+            i.descripcion,
+            i.fechalanzamiento,
+            i.tarifaxdia,
+            i.formatorenta,
+            i.genero,
+            ti.id AS TIPOITEM_id,
+            ti.descripcion AS TIPOITEM_descripcion
         FROM
-            VI_ITEMS AS items
-        JOIN
-            VI_TIPOITEM
+            VI_ITEMS AS i
+        LEFT JOIN
+            VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
         WHERE
-            items.id = #{id}
-        GROUP BY
-            items.id;
+            i.id = #{id};
     </select>
 
     <insert id="insertarItem" parameterType="Item">
@@ -46,28 +63,37 @@
 
     <select id="loadAvailable" resultMap="ItemResultMap">
         SELECT
-            items.*,
-            VI_TIPOITEM.id AS tipoitem_id,
-            VI_TIPOITEM.descripcion AS tipoitem_descripcion
+            i.id,
+            i.nombre,
+            i.descripcion,
+            i.fechalanzamiento,
+            i.tarifaxdia,
+            i.formatorenta,
+            i.genero,
+            ti.id AS TIPOITEM_id,
+            ti.descripcion AS TIPOITEM_descripcion
         FROM
-            VI_ITEMS AS items
-        JOIN
-            VI_TIPOITEM
+            VI_ITEMS AS i
         LEFT JOIN
-            VI_ITEMRENTADO AS item_rentado
-                ON items.id = item_rentado.ITEMS_id
+            VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
+        LEFT JOIN
+            VI_ITEMRENTADO AS ir ON i.id = ir.ITEMS_id
         WHERE
-            item_rentado.ITEMS_id IS NULL
-        GROUP BY
-            items.id;
+            ir.ITEMS_id IS NULL;
     </select>
 
     <update id="actualizarTarifaItem">
-        UPDATE VI_ITEMS SET tarifaxdia = #{tarifa} WHERE id = #{id};
+        UPDATE
+            VI_ITEMS
+        SET
+            tarifaxdia = #{tarifa}
+        WHERE
+            id = #{id};
     </update>
 
     <delete id="limpiarItems">
-        DELETE FROM VI_ITEMS;
+        DELETE FROM
+            VI_ITEMS;
     </delete>
 
     <resultMap id="ItemResultMap" type="Item">
@@ -78,6 +104,6 @@
         <result column="tarifaxdia" property="tarifaxDia"/>
         <result column="formatorenta" property="formatoRenta"/>
         <result column="genero" property="genero"/>
-        <association property="tipo" javaType="TipoItem" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResultMap" columnPrefix="tipoitem_"/>
+        <association property="tipo" javaType="TipoItem" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResultMap" columnPrefix="TIPOITEM_"/>
     </resultMap>
 </mapper>

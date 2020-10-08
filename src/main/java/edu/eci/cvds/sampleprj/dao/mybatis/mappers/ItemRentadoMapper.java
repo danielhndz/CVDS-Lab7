@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ItemRentadoMapper {
 
-    ItemRentado consultarItemRentado(@Param("itemId") int itemId);
+    ItemRentado consultarItemRentado(@Param("itemRentadoId") int itemRentadoId);
 
     List<ItemRentado> consultarItemsRentados();
 

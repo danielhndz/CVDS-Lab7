@@ -4,7 +4,6 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
@@ -13,45 +12,80 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </h:head>
 
-    <f:view>
-        <h:form id="FormAlquiler">
-            <p:dataTable var="itemRentado" value="#{alquilerItemsBean.getSelectedCliente().rentados}">
-                <f:facet name="header">
-                    Ítems Rentados
-                </f:facet>
-                <p:column headerText="Id ítem">
-                    <h:outputText value="#{itemRentado.item.id}" />
-                </p:column>
-                <p:column headerText="Nombre">
-                    <h:outputText value="#{itemRentado.item.nombre}" />
-                </p:column>
-                <p:column headerText="Precio">
-                    <h:outputText value="#{itemRentado.item.tarifaxDia}" />
-                </p:column>
-                <p:column headerText="Fecha inicial">
-                    <h:outputText value="#{itemRentado.fechaInicioRenta}" />
-                </p:column>
-                <p:column headerText="Fecha final">
-                    <h:outputText value="#{itemRentado.fechaFinRenta}" />
-                </p:column>
-                <p:column headerText="Descripción">
-                    <h:outputText value="#{itemRentado.item.descripcion}" />
-                </p:column>
-                <p:column headerText="Multa">
-                    <h:outputText value="#{alquilerItemsBean.consultarMulta(itemRentado.item.id)}" />
-                </p:column>
-            </p:dataTable>
+    <f:metadata>
+        <f:viewParam name="doc" value="#{registroAlquilerBean.documento}" />
+    </f:metadata>
 
-            <h:panelGrid columns="2" cellpadding="5">
-                <p:outputLabel for="@next" value="Ingrese el id del ítem" />
-                <p:inputText  id="item" type="String" binding="#{id}" />
-                <p:outputLabel for="@next" value="Ingrese el número de días" />
-                <p:inputText  id="numdias" type="String" binding="#{dias}" />
-                <p:commandButton value="Registrar" update="FormAlquiler" action="registroCliente?faces-redirect = true" actionListener="#{alquilerItemsBean.registrarAlquilerCliente(id.value,dias.value)}"/>
-                <p:commandButton value="Consultar Costo" update="FormAlquiler"  actionListener="#{alquilerItemsBean.consultarCosto(id.value,dias.value)}"/>
-                <p:outputLabel value="Costo del alquiler"/>
-                <h:outputText value="#{alquilerItemsBean.getCosto()}"/>
-            </h:panelGrid>
-        </h:form>
-    </f:view>
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" />
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" />
+    </p:confirmDialog>
+
+    <body>
+        <f:view>
+            <div class="container" style="margin: 0.5em 1% 0.5em 1%;">
+                <h1 style="text-align: center">Registrar Alquiler</h1>
+                <h:form id="alq-form">
+                    <p:panelGrid columns="4" layout="grid" styleClass="showcase-text-align-center">
+
+                        <p:outputLabel for="id-item-input" value="ID Iem: " />
+                        <p:inputNumber id="id-item-input" value="#{registroAlquilerBean.itemId}" required="true" decimalPlaces="0">
+                            <p:ajax update="costoLabel" event="keyup" />
+                        </p:inputNumber>
+
+                        <p:outputLabel for="dias-input" value="Días de Alquiler: " />
+                        <p:inputNumber id="dias-input" value="#{registroAlquilerBean.numDays}" required="true" decimalPlaces="0">
+                            <p:ajax update="costoLabel" event="keyup" />
+                        </p:inputNumber>
+
+                    </p:panelGrid>
+
+                    <div style="text-align: center; font-size: medium; font-weight: bold; margin: 1em 35% 1em 35%;">
+                        <p:outputLabel id="costoLabel" value="Costo del Alquiler: #{registroAlquilerBean.calcularCostoAlquiler()}" />
+                    </div>
+
+                    <div style="text-align: center; margin: 1em 35% 1em 35%; width: 30%;">
+                        <p:commandButton ajax="true" action="#{registroAlquilerBean.registrarAlquiler()}" update="alq-form items-table"
+                                         value="Registrar Alquiler">
+                            <p:confirm header="Conf" message="Está seguro de realizar el alquiler?"/>
+                        </p:commandButton>
+                    </div>
+                </h:form>
+
+
+                <h1 style="text-align: center">
+                    Ítems rentados por el cliente <h:outputText value="#{registroAlquilerBean.documento}"/>
+                </h1>
+                <p:dataTable id="items-table" var="itemRentado" value="#{registroAlquilerBean.itemsRentados}" rows="20" paginator="true"
+                             paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} Clientes"
+                             rowsPerPageTemplate="10,20,50">
+                    <p:column headerText="Código Item">
+                        <h:outputText value="#{itemRentado.item.id}" />
+                    </p:column>
+
+                    <p:column headerText="Nombre Item">
+                        <h:outputText value="#{itemRentado.item.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Descripción">
+                        <h:outputText value="#{itemRentado.item.descripcion}" />
+                    </p:column>
+
+                    <p:column headerText="Fecha Inicio Renta">
+                        <h:outputText value="#{itemRentado.fechaInicioRenta}" />
+                    </p:column>
+
+                    <p:column headerText="Fecha Fin Renta">
+                        <h:outputText value="#{itemRentado.fechaFinRenta}" />
+                    </p:column>
+
+                    <p:column headerText="Multa">
+                        <h:outputText value="#{registroAlquilerBean.calcularMulta(itemRentado)}" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </f:view>
+    </body>
 </html>

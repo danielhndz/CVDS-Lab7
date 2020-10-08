@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ItemRentadoDAO {
 
-    ItemRentado consultarItemRentado(int id) throws PersistenceException;
+    ItemRentado consultarItemRentado(int itemRentadoId) throws PersistenceException;
 
     List<ItemRentado> consultarItemsRentados() throws PersistenceException;
 

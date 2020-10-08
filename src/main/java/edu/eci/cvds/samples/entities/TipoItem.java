@@ -25,11 +25,11 @@ public class TipoItem implements Serializable {
     public TipoItem() {
     }
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    public void setID(int ID) {
+    public void setId(int ID) {
         this.id = ID;
     }
 
