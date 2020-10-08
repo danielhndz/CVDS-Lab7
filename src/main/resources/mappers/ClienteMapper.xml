@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper">
-    <select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
+    <select id="consultarClientes" resultMap="ClienteResultMap">
         SELECT
         c.nombre,
         c.documento,
@@ -30,7 +30,7 @@
         LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id;
     </select>
 
-    <select id="consultarCliente" resultMap="ClienteResult" parameterType="map">
+    <select id="consultarCliente" resultMap="ClienteResultMap" parameterType="long">
         SELECT
         c.nombre,
         c.documento,
@@ -54,28 +54,56 @@
         LEFT JOIN VI_ITEMRENTADO AS ir ON c.documento = ir.CLIENTES_documento
         LEFT JOIN VI_ITEMS AS i ON ir.ITEMS_id = i.id
         LEFT JOIN VI_TIPOITEM AS ti ON i.TIPOITEM_id = ti.id
-        WHERE c.documento = #{idcli};
+        WHERE c.documento = #{docu};
     </select>
     
     <insert id="agregarItemRentadoACliente">
         INSERT INTO VI_ITEMRENTADO (CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
-        VALUES (#{idcli}, #{iditm}, #{fechainicio}, #{fechafin});
+        VALUES (#{idCli}, #{idItm}, #{fechaInicio}, #{fechaFin});
     </insert>
 
-    <resultMap id="ClienteResult" type="Cliente">
+    <insert id="agregarItemRentadoAClienteConId">
+        INSERT INTO VI_ITEMRENTADO (id, CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+        VALUES (#{id}, #{idCli}, #{idItm}, #{fechaInicio}, #{fechaFin});
+    </insert>
+
+    <select id="consultarItemsCliente" parameterType="long" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper.ItemRentadoResultMap">
+        SELECT
+            vc.nombre,
+            vc.documento,
+            vc.vetado,
+            vi.id,
+            vi.ITEMS_id,
+            vi.fechainiciorenta,
+            vi.fechafinrenta
+            FROM
+                VI_CLIENTES AS vc
+            LEFT JOIN
+                VI_ITEMRENTADO AS vi ON vc.documento = vi.CLIENTES_documento
+            WHERE
+                vc.documento = #{docu};
+    </select>
+
+    <insert id="registrarCliente" parameterType="Cliente">
+        INSERT INTO VI_CLIENTES (documento, nombre, telefono, direccion, email, vetado)
+        VALUES (#{cliente.documento}, #{cliente.nombre}, #{cliente.telefono}, #{cliente.direccion}, #{cliente.email}, #{cliente.vetado});
+    </insert>
+
+    <update id="vetarCliente">
+        UPDATE VI_CLIENTES SET vetado = #{estado} WHERE documento = #{docu};
+    </update>
+
+    <delete id="limpiarClientes">
+        DELETE FROM VI_CLIENTES;
+    </delete>
+
+    <resultMap id="ClienteResultMap" type="Cliente">
         <id column="documento" property="documento"/>
         <result column="nombre" property="nombre"/>
         <result column="telefono" property="telefono"/>
         <result column="direccion" property="direccion"/>
         <result column="email" property="email"/>
         <result column="vetado" property="vetado"/>
-        <collection property="rentados" ofType="ItemRentado" resultMap="ItemRentadoResult"/>
-    </resultMap>
-
-    <resultMap id="ItemRentadoResult" type="ItemRentado">
-        <id column="id" property="id"/>
-        <result column="fechainiciorenta" property="fechainiciorenta"/>
-        <result column="fechafinrenta" property="fechafinrenta"/>
-        <association property="item" javaType="Item" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper.ItemResult"/>
+        <collection property="rentados" ofType="ItemRentado" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemRentadoMapper.ItemRentadoResultMap"/>
     </resultMap>
 </mapper>

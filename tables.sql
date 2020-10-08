@@ -38,5 +38,3 @@ CREATE TABLE IF NOT EXISTS `VI_ITEMRENTADO` (
   `ITEMS_id` INT(11) NOT NULL,
   `fechainiciorenta` DATE NOT NULL,
   `fechafinrenta` DATE NOT NULL);
-
-

@@ -4,21 +4,73 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper">
-    <insert id="insertarItem">
+    <select id="valorMultaRetrasoPorDia" resultType="int">
+        SELECT
+            VI_ITEMS.tarifaxdia
+        FROM
+            VI_ITEMS
+        WHERE
+            VI_ITEMS.id = #{id};
+    </select>
+
+    <select id="consultarItems" resultMap="ItemResultMap">
+        SELECT * FROM VI_ITEMS;
+    </select>
+
+    <select id="consultarItem" resultMap="ItemResultMap" parameterType="int">
+        SELECT
+            items.*,
+            VI_TIPOITEM.id AS tipoitem_id,
+            VI_TIPOITEM.descripcion AS tipoitem_descripcion
+        FROM
+            VI_ITEMS AS items
+        JOIN
+            VI_TIPOITEM
+        WHERE
+            items.id = #{id}
+        GROUP BY
+            items.id;
+    </select>
+
+    <insert id="insertarItem" parameterType="Item">
         INSERT INTO VI_ITEMS (id, nombre, descripcion, fechalanzamiento, tarifaxdia, formatorenta, genero, TIPOITEM_id)
         VALUES (#{item.id}, #{item.nombre}, #{item.descripcion}, #{item.fechaLanzamiento}, #{item.tarifaxDia},
                 #{item.formatoRenta}, #{item.genero}, #{item.tipo.id});
     </insert>
-    
-    <select id="consultarItem" resultMap="ItemResult" parameterType="map">
-        SELECT * FROM VI_ITEMS vi WHERE vi.id = #{id};
+
+    <insert id="insertarItemWithID" parameterType="map">
+        INSERT INTO VI_ITEMS (id, nombre, descripcion, fechalanzamiento, tarifaxdia, formatorenta, genero, TIPOITEM_id)
+        VALUES (#{item.id}, #{item.nombre}, #{item.descripcion}, #{item.fechaLanzamiento}, #{item.tarifaxDia},
+                #{item.formatoRenta}, #{item.genero}, #{tipoId});
+    </insert>
+
+    <select id="loadAvailable" resultMap="ItemResultMap">
+        SELECT
+            items.*,
+            VI_TIPOITEM.id AS tipoitem_id,
+            VI_TIPOITEM.descripcion AS tipoitem_descripcion
+        FROM
+            VI_ITEMS AS items
+        JOIN
+            VI_TIPOITEM
+        LEFT JOIN
+            VI_ITEMRENTADO AS item_rentado
+                ON items.id = item_rentado.ITEMS_id
+        WHERE
+            item_rentado.ITEMS_id IS NULL
+        GROUP BY
+            items.id;
     </select>
 
-    <select id="consultarItems" resultMap="ItemResult">
-        SELECT * FROM VI_ITEMS;
-    </select>
+    <update id="actualizarTarifaItem">
+        UPDATE VI_ITEMS SET tarifaxdia = #{tarifa} WHERE id = #{id};
+    </update>
 
-    <resultMap id="ItemResult" type="Item">
+    <delete id="limpiarItems">
+        DELETE FROM VI_ITEMS;
+    </delete>
+
+    <resultMap id="ItemResultMap" type="Item">
         <id column="id" property="id"/>
         <result column="nombre" property="nombre"/>
         <result column="descripcion" property="descripcion"/>
@@ -26,6 +78,6 @@
         <result column="tarifaxdia" property="tarifaxDia"/>
         <result column="formatorenta" property="formatoRenta"/>
         <result column="genero" property="genero"/>
-        <association property="tipo" javaType="TipoItem" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResult"/>
+        <association property="tipo" javaType="TipoItem" resultMap="edu.eci.cvds.sampleprj.dao.mybatis.mappers.TipoItemMapper.TipoItemResultMap" columnPrefix="tipoitem_"/>
     </resultMap>
 </mapper>

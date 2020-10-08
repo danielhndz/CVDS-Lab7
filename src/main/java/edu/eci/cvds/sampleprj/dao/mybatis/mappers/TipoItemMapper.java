@@ -2,15 +2,21 @@ package edu.eci.cvds.sampleprj.dao.mybatis.mappers;
 
 
 import edu.eci.cvds.samples.entities.TipoItem;
+import org.apache.ibatis.annotations.Param;
+import org.mybatis.guice.transactional.Transactional;
 
 import java.util.List;
 
-@SuppressWarnings("unused")
+
 public interface TipoItemMapper {
     
     List<TipoItem> getTiposItems();
     
-    TipoItem getTipoItem(int id);
-    
-    void addTipoItem(String des);
+    TipoItem getTipoItem(@Param("tipoItemId") int tipoItemId);
+
+    @Transactional
+    void addTipoItem(@Param("tipoItem") TipoItem tipoItem);
+
+    @Transactional
+    void limpiarTiposItem();
 }
