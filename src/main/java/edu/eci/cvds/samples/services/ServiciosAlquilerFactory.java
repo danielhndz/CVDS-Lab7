@@ -52,7 +52,7 @@ public class ServiciosAlquilerFactory {
 
     public ServiciosAlquiler getServiciosAlquilerTesting(){
         if (!optionalInjector.isPresent()) {
-            optionalInjector = Optional.of(myBatisInjector("test","mybatis-config-h2.xml"));
+            optionalInjector = Optional.of(myBatisInjector("test", "mybatis-config-h2.xml"));
         }
 
         return optionalInjector.get().getInstance(ServiciosAlquiler.class);
